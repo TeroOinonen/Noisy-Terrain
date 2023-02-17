@@ -433,3 +433,4 @@ MonoBehaviour:
   noiseSampleSize: 30
   scale: 3
   textureResolution: 8
+  maxHeight: 2

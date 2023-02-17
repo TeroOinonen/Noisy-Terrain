@@ -8,8 +8,8 @@ public class TileGenerator : MonoBehaviour
 	[Header("Parameters")]
 	public int noiseSampleSize;
 	public float scale;
-
 	public int textureResolution = 1;
+	public float maxHeight = 1.0f;
 
 	private MeshRenderer tileMeshRenderer;
 	private MeshFilter tileMeshFilter;
@@ -30,6 +30,24 @@ public class TileGenerator : MonoBehaviour
 		float[,] heightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale);
 
 		float[,] hdHeightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale, textureResolution);
+
+		Vector3[] verts = tileMeshFilter.mesh.vertices;
+
+		for (int x = 0; x < noiseSampleSize; x++)
+		{
+			for (int z = 0; z < noiseSampleSize; z++)
+			{
+				int index = (x * noiseSampleSize) + z;
+				
+				verts[index].y = heightMap[x, z] * maxHeight;
+			}
+		}
+
+		tileMeshFilter.mesh.vertices = verts;
+		tileMeshFilter.mesh.RecalculateBounds();
+		tileMeshFilter.mesh.RecalculateNormals();
+
+		tileMeshCollider.sharedMesh = tileMeshFilter.mesh;
 
 		Texture2D heightMapTexture = TextureBuilder.BuildTexture(hdHeightMap);
 
