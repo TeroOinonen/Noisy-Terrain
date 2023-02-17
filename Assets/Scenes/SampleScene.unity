@@ -432,3 +432,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseSampleSize: 30
   scale: 3
+  textureResolution: 8

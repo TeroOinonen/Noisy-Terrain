@@ -9,6 +9,8 @@ public class TileGenerator : MonoBehaviour
 	public int noiseSampleSize;
 	public float scale;
 
+	public int textureResolution = 1;
+
 	private MeshRenderer tileMeshRenderer;
 	private MeshFilter tileMeshFilter;
 	private MeshCollider tileMeshCollider;
@@ -27,7 +29,9 @@ public class TileGenerator : MonoBehaviour
 	{
 		float[,] heightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale);
 
-		Texture2D heightMapTexture = TextureBuilder.BuildTexture(heightMap);
+		float[,] hdHeightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale, textureResolution);
+
+		Texture2D heightMapTexture = TextureBuilder.BuildTexture(hdHeightMap);
 
 		tileMeshRenderer.material.mainTexture = heightMapTexture;
 	}
