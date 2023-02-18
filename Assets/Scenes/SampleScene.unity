@@ -431,9 +431,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseSampleSize: 30
-  scale: 10
-  textureResolution: 8
-  maxHeight: 5
+  scale: 8
+  textureResolution: 32
+  maxHeight: 4
   heightTerrainTypes:
   - treshold: 0.25
     colorGradient:
@@ -555,3 +555,13 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+  waves:
+  - seed: 6345
+    frequency: 2
+    amplitude: 3
+  - seed: 76446
+    frequency: 1
+    amplitude: 0.5
+  - seed: 3453
+    frequency: 0.5
+    amplitude: 5
