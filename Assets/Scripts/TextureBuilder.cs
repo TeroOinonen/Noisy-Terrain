@@ -17,24 +17,13 @@ public class TextureBuilder
             {
                 int index = (x * pixelLength) + z;
 
-                TerrainType terrainType1(float level) =>
-                    noiseMap[x, z] switch
-                    {
-
-
-				//string WaterState(int tempInFahrenheit) =>
-	   //         tempInFahrenheit switch
-	   //         {
-		  //          (> 32) and (< 212) => "liquid",
-		  //          < 32 => "solid",
-		  //          > 212 => "gas",
-		  //          32 => "solid/liquid transition",
-		  //          212 => "liquid / gas transition",
-	   //         };
-
 				foreach (TerrainType terrainType in terrainTypes)
                 {
-
+                    if (noiseMap[x, z] < terrainType.treshold)
+                    {
+                        pixels[index] = terrainType.color;
+                        break;
+                    }
                 }
 
                 //pixels[index] = Color.Lerp(Color.black, Color.white, noiseMap[x,z]);
