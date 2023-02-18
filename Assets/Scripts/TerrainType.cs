@@ -8,6 +8,6 @@ public class TerrainType
 {
 	[Range(0f, 1f)]
 	public float treshold;
-	public Color color;
+	public Gradient colorGradient;
 
 }

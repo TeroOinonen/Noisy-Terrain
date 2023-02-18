@@ -17,11 +17,14 @@ public class TextureBuilder
             {
                 int index = (x * pixelLength) + z;
 
-				foreach (TerrainType terrainType in terrainTypes)
+				for (int t = 0; t < terrainTypes.Length; t++)
                 {
-                    if (noiseMap[x, z] < terrainType.treshold)
+                    if (noiseMap[x, z] < terrainTypes[t].treshold)
                     {
-                        pixels[index] = terrainType.color;
+                        float minVal = t ==0 ? 0 : terrainTypes[t-1].treshold;
+                        float maxVal = terrainTypes[t].treshold;
+
+                        pixels[index] = terrainTypes[t].colorGradient.Evaluate(1f - (maxVal - noiseMap[x,z]) / (maxVal - minVal));
                         break;
                     }
                 }
