@@ -28,8 +28,6 @@ public class TextureBuilder
                         break;
                     }
                 }
-
-                //pixels[index] = Color.Lerp(Color.black, Color.white, noiseMap[x,z]);
             }
         }
 

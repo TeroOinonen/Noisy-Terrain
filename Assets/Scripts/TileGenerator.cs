@@ -32,7 +32,7 @@ public class TileGenerator : MonoBehaviour
 	{
 		float[,] heightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale);
 
-		float[,] hdHeightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale, textureResolution);
+		float[,] hdHeightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize-1, scale, textureResolution);
 
 		Vector3[] verts = tileMeshFilter.mesh.vertices;
 
