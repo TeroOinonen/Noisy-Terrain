@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlaceTank : MonoBehaviour
 {
+	public GameObject Tank;
+
     private void OnDrawGizmos()
     {
         Vector3 lookfrom = transform.position;
@@ -24,6 +26,11 @@ public class PlaceTank : MonoBehaviour
 			Vector3 vForward = Vector3.Cross(vRight, hit.normal);
 
 			DrawVector(hit.point, hit.point + vForward, Color.blue);
+
+			Quaternion quat = Quaternion.LookRotation(vForward, hit.normal);
+
+			Tank.transform.rotation = quat;
+			Tank.transform.position = hit.point;
 		}
     }
 
