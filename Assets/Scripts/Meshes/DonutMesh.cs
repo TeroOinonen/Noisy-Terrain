@@ -37,6 +37,8 @@ public class DonutMesh : MonoBehaviour
 
 		List<Vector3> verts = new List<Vector3>();
 
+		List<Vector2> UVs = new List<Vector2>();
+
 		for (int i = 0; i < NumberOfPoints; i++)
 		{
 			float theta = tau * i / NumberOfPoints; // Angle of current iteration (in radians)
@@ -44,6 +46,9 @@ public class DonutMesh : MonoBehaviour
 
 			verts.Add(v * InnerRadius);
 			verts.Add(v * OuterRadius);
+
+			UVs.Add(new Vector2(((float)i / (float)NumberOfPoints), 0f));
+			UVs.Add(new Vector2(((float)i / (float)NumberOfPoints), 1f));
 		}
 
 		List<int> tri_indices = new List<int>();
@@ -76,10 +81,11 @@ public class DonutMesh : MonoBehaviour
 			}
 		}
 
-		mesh.SetVertices(verts);
-		mesh.SetTriangles(tri_indices, 0);
+		mesh.SetVertices(verts); // Verts
+		mesh.SetTriangles(tri_indices, 0); // Tris
+		mesh.RecalculateNormals(); // Normals
+		mesh.SetUVs(0, UVs); // UVs
 
-		mesh.RecalculateNormals();
 
 		if (mf != null)
 		{
