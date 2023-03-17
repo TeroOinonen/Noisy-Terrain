@@ -40,7 +40,7 @@ public class CircleMesh : MonoBehaviour
 		for (int i = 0; i < NumberOfPoints; i++)
 		{
 			float theta = tau * i / NumberOfPoints; // Angle of current iteration (in radians)
-			Debug.Log("Angle radians:" + theta + " Angle degrees:" + 360f * theta / tau);
+			//Debug.Log("Angle radians:" + theta + " Angle degrees:" + 360f * theta / tau);
 
 			Vector3 v = new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0);
 

@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfPoints: 8
-  InnerRadius: 1
-  OuterRadius: 3
+  InnerRadius: 2
+  OuterRadius: 5
 --- !u!23 &476591296
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -214,14 +214,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 476591294}
-  m_LocalRotation: {x: 0.8506087, y: -0, z: -0, w: -0.5257993}
-  m_LocalPosition: {x: -2.72, y: 2.23, z: 8.483}
+  m_LocalRotation: {x: 0.84964925, y: -0.024966376, z: 0.040389217, w: -0.5252062}
+  m_LocalPosition: {x: -2.07, y: 2.17, z: 8.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 243.444, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 242.932, y: -12.031982, z: 10.746002}
 --- !u!1 &673746174
 GameObject:
   m_ObjectHideFlags: 0
