@@ -19,6 +19,9 @@ public class BezierDrawer : MonoBehaviour
 	[Range(0f, 1f)]
 	private float t = 0f; // Placement position on the bezier track
 
+	[SerializeField]
+	private Mesh2D road2D;
+
 	private void OnDrawGizmos()
 	{
 
@@ -66,12 +69,18 @@ public class BezierDrawer : MonoBehaviour
 				Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
 				Quaternion Calcrot = Quaternion.LookRotation(tCalcDir);
 
-				Gizmos.color = Color.yellow;
-				Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.right * 0.3f), 0.1f);
-				Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.left * 0.3f), 0.1f);
-				Gizmos.color = Color.green;
-				Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.up * 0.3f), 0.1f);
-				Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.down * 0.3f), 0.1f);
+				//Gizmos.color = Color.yellow;
+				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.right * 0.3f), 0.1f);
+				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.left * 0.3f), 0.1f);
+				//Gizmos.color = Color.green;
+				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.up * 0.3f), 0.1f);
+				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.down * 0.3f), 0.1f);
+
+				for (int ix = 0; ix < road2D.vertices.Length; ix++)
+				{
+					Vector3 roadPoint = road2D.vertices[ix].point;
+					Gizmos.DrawSphere(tCalcPos + (Calcrot * roadPoint), 0.1f);
+				}
 			}
 		}
 	}
