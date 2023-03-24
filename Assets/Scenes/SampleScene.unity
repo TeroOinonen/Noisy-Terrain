@@ -628,7 +628,7 @@ MonoBehaviour:
   noiseSampleSize: 30
   scale: 8
   textureResolution: 32
-  maxHeight: 4
+  maxHeight: 6
   heightTerrainTypes:
   - treshold: 0.25
     colorGradient:
@@ -690,7 +690,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 4
       m_NumAlphaKeys: 2
-  - treshold: 0.8
+  - treshold: 0.525
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.2784314, g: 0.86274517, b: 0, a: 1}
@@ -720,7 +720,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
-  - treshold: 1
+  - treshold: 0.75
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.6745098, g: 0.427451, b: 0.04705883, a: 1}
