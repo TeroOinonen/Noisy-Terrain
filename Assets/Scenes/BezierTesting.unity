@@ -525,7 +525,7 @@ MonoBehaviour:
   - {fileID: 2097408897}
   - {fileID: 157645255}
   IsLooping: 1
-  t: 0.466
+  t: 0.386
 --- !u!4 &1233396117
 Transform:
   m_ObjectHideFlags: 0

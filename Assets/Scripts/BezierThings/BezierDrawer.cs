@@ -62,9 +62,9 @@ public class BezierDrawer : MonoBehaviour
 			{
 				float calcT = (float)iz * 0.1f;
 
-				Vector3 tCalcPos = GetBezierPositionWhenT(t, source, target); // Calculate position when t is x
-				Vector3 tCalcDir = GetBezierDirectionWhenT(t, source, target);
-				Quaternion Calcrot = Quaternion.LookRotation(tDir);
+				Vector3 tCalcPos = GetBezierPositionWhenT(calcT, source, target); // Calculate position when t is x
+				Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
+				Quaternion Calcrot = Quaternion.LookRotation(tCalcDir);
 
 				Gizmos.color = Color.yellow;
 				Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.right * 0.3f), 0.1f);
