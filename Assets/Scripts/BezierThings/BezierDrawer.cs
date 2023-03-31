@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
+using static UnityEngine.GraphicsBuffer;
 
 public class BezierDrawer : MonoBehaviour
 {
@@ -21,6 +24,28 @@ public class BezierDrawer : MonoBehaviour
 
 	[SerializeField]
 	private Mesh2D road2D;
+
+	private MeshRenderer meshRenderer;
+	private MeshFilter meshFilter;
+
+	[SerializeField]
+	private int divider = 5;
+
+	private void Awake()
+	{
+		this.meshRenderer = gameObject.GetComponent<MeshRenderer>();
+		this.meshFilter = gameObject.GetComponent<MeshFilter>();
+	}
+
+	private void Start()
+	{
+		GenerateMesh();
+	}
+
+	private void Update()
+	{
+		GenerateMesh();
+	}
 
 	private void OnDrawGizmos()
 	{
@@ -61,9 +86,11 @@ public class BezierDrawer : MonoBehaviour
 
 			Handles.PositionHandle(tPos, rot);
 
-			for (int iz = 0; iz < 10; iz++)
+			float tIncrement = 1f / divider;
+
+			for (int iz = 0; iz < divider; iz++)
 			{
-				float calcT = (float)iz * 0.1f;
+				float calcT = (float)iz * tIncrement;
 
 				Vector3 tCalcPos = GetBezierPositionWhenT(calcT, source, target); // Calculate position when t is x
 				Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
@@ -117,4 +144,90 @@ public class BezierDrawer : MonoBehaviour
 		return (PtS - PtR).normalized;
 	}
 
+	private void GenerateMesh()
+	{
+		// Create a new Mesh
+		Mesh mesh = new Mesh();
+		this.meshFilter.mesh = mesh;
+
+		// Vertices
+		List<Vector3> vertices = new List<Vector3>();
+
+		// UVs
+		List<Vector3> uvs = new List<Vector3>();
+
+		GenerateVertices(vertices, uvs);
+
+		//int[] tri_indices = new int[Beziers.Count * ];
+		List<int> triangles = new List<int>();
+
+		int offset = road2D.vertices.Length;
+
+		// create the triangles
+		for (int tri = 0; tri < Beziers.Count * (divider - 1); tri++)
+		{
+			int startOffset = offset * tri;
+			for (int i = 1; i < road2D.vertices.Length; i += 2)
+			{
+				triangles.Add(startOffset + i);
+				triangles.Add(startOffset + i + offset);
+				triangles.Add(startOffset + i + 1);
+
+				triangles.Add(startOffset + i + 1);
+				triangles.Add(startOffset + i + offset);
+				triangles.Add(startOffset + i + offset + 1);
+			}
+		}
+
+		mesh.vertices = vertices.ToArray();
+		mesh.SetUVs(0, uvs);
+		// set the triangles and recalculate the normals
+		mesh.triangles = triangles.ToArray();
+		mesh.RecalculateNormals();
+	}
+
+	private void GenerateVertices(List<Vector3> vertices, List<Vector3> uvs)
+	{
+		for (int i = 0; i < Beziers.Count; i++)
+		{
+			BezierPoint source = Beziers[i];
+			BezierPoint target;
+			if (Beziers.Count > i + 1)
+			{
+				target = Beziers[i + 1];
+			}
+			else
+			{
+				if (IsLooping)
+				{
+					target = Beziers[0];
+				}
+				else
+				{
+					break;
+				}
+
+			}
+
+			float tIncrement = 1f / divider;
+
+			for (int iz = 0; iz < divider; iz++)
+			{
+				float calcT = (float)iz * tIncrement;
+
+				Vector3 tCalcPos = GetBezierPositionWhenT(calcT, source, target); // Calculate position when t is x
+				Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
+				Quaternion Calcrot = Quaternion.LookRotation(tCalcDir);
+
+				for (int ix = 0; ix < road2D.vertices.Length; ix++)
+				{
+					Vector3 roadPoint = road2D.vertices[ix].point;
+					Vector3 vertexPoint = tCalcPos + (Calcrot * roadPoint);
+					vertices.Add(vertexPoint);
+
+					uvs.Add(new Vector2(roadPoint.x / 10.0f + 0.5f, calcT));
+				}
+			}
+		}
+	}
 }
