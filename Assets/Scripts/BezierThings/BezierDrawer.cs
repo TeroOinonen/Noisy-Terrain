@@ -167,7 +167,7 @@ public class BezierDrawer : MonoBehaviour
 		for (int tri = 0; tri < Beziers.Count * (divider - 1); tri++)
 		{
 			int startOffset = offset * tri;
-			for (int i = 1; i < road2D.vertices.Length; i += 2)
+			for (int i = 0; i < road2D.vertices.Length; i += 2)
 			{
 				triangles.Add(startOffset + i);
 				triangles.Add(startOffset + i + offset);
