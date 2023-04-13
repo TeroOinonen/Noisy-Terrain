@@ -96,13 +96,6 @@ public class BezierDrawer : MonoBehaviour
 				Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
 				Quaternion Calcrot = Quaternion.LookRotation(tCalcDir);
 
-				//Gizmos.color = Color.yellow;
-				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.right * 0.3f), 0.1f);
-				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.left * 0.3f), 0.1f);
-				//Gizmos.color = Color.green;
-				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.up * 0.3f), 0.1f);
-				//Gizmos.DrawSphere(tCalcPos + (Calcrot * Vector3.down * 0.3f), 0.1f);
-
 				for (int ix = 0; ix < road2D.vertices.Length; ix++)
 				{
 					Vector3 roadPoint = road2D.vertices[ix].point;
@@ -158,24 +151,32 @@ public class BezierDrawer : MonoBehaviour
 
 		GenerateVertices(vertices, uvs);
 
-		//int[] tri_indices = new int[Beziers.Count * ];
 		List<int> triangles = new List<int>();
 
 		int offset = road2D.vertices.Length;
 
+		int triangleSets = Beziers.Count * (divider - 1);
+
+		if (IsLooping)
+		{
+			triangleSets += divider;
+		}
+
+		Debug.Log("Trianglesets:" + triangleSets);
+
 		// create the triangles
-		for (int tri = 0; tri < Beziers.Count * (divider - 1); tri++)
+		for (int tri = 0; tri < triangleSets; tri++)
 		{
 			int startOffset = offset * tri;
 			for (int i = 0; i < road2D.vertices.Length; i += 2)
 			{
-				triangles.Add(startOffset + i);
-				triangles.Add(startOffset + i + offset);
-				triangles.Add(startOffset + i + 1);
+				triangles.Add((startOffset + i) % vertices.Count);
+				triangles.Add((startOffset + i + offset) % vertices.Count);
+				triangles.Add((startOffset + i + 1) % vertices.Count);
 
-				triangles.Add(startOffset + i + 1);
-				triangles.Add(startOffset + i + offset);
-				triangles.Add(startOffset + i + offset + 1);
+				triangles.Add((startOffset + i + 1) % vertices.Count);
+				triangles.Add((startOffset + i + offset) % vertices.Count);
+				triangles.Add((startOffset + i + offset + 1) % vertices.Count);
 			}
 		}
 
@@ -188,7 +189,15 @@ public class BezierDrawer : MonoBehaviour
 
 	private void GenerateVertices(List<Vector3> vertices, List<Vector3> uvs)
 	{
-		for (int i = 0; i < Beziers.Count; i++)
+		int endLoop = Beziers.Count;
+		bool isLastOne = false;
+
+		if (IsLooping)
+		{
+			endLoop++; // Make trail between the end of last bezier and start of first bezier
+		}
+
+		for (int i = 0; i < endLoop; i++)
 		{
 			BezierPoint source = Beziers[i];
 			BezierPoint target;
@@ -201,16 +210,24 @@ public class BezierDrawer : MonoBehaviour
 				if (IsLooping)
 				{
 					target = Beziers[0];
+					isLastOne = true; // Make sure this is the last time we loop
 				}
 				else
 				{
 					break;
 				}
-
 			}
 
 			float tIncrement = 1f / divider;
 
+			int sliceCount = divider;
+
+			if (!IsLooping && isLastOne)
+			{
+				sliceCount++;
+			}
+
+			// If we want 5 divisions, we will draw 4 slices in looped or extra slice in last one when unlooped
 			for (int iz = 0; iz < divider; iz++)
 			{
 				float calcT = (float)iz * tIncrement;
@@ -227,6 +244,11 @@ public class BezierDrawer : MonoBehaviour
 
 					uvs.Add(new Vector2(roadPoint.x / 10.0f + 0.5f, calcT));
 				}
+			}
+
+			if (isLastOne)
+			{
+				break;
 			}
 		}
 	}
