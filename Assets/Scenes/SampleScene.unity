@@ -630,7 +630,7 @@ MonoBehaviour:
   textureResolution: 32
   maxHeight: 6
   heightTerrainTypes:
-  - treshold: 0.25
+  - treshold: 0.21
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.007242369, g: 0, b: 0.5377358, a: 1}
@@ -660,7 +660,7 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-  - treshold: 0.28
+  - treshold: 0.23
     colorGradient:
       serializedVersion: 2
       key0: {r: 0, g: 0.8117648, b: 0.9921569, a: 1}

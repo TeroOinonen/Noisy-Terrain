@@ -31,6 +31,9 @@ public class BezierDrawer : MonoBehaviour
 	[SerializeField]
 	private int divider = 5;
 
+	[SerializeField]
+	private bool DrawSliceDots = false;
+
 	private void Awake()
 	{
 		this.meshRenderer = gameObject.GetComponent<MeshRenderer>();
@@ -84,22 +87,25 @@ public class BezierDrawer : MonoBehaviour
 
 			Quaternion rot = Quaternion.LookRotation(tDir);
 
-			Handles.PositionHandle(tPos, rot);
+			//Handles.PositionHandle(tPos, rot);
 
-			float tIncrement = 1f / divider;
-
-			for (int iz = 0; iz < divider; iz++)
+			if (DrawSliceDots)
 			{
-				float calcT = (float)iz * tIncrement;
+				float tIncrement = 1f / divider;
 
-				Vector3 tCalcPos = GetBezierPositionWhenT(calcT, source, target); // Calculate position when t is x
-				Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
-				Quaternion Calcrot = Quaternion.LookRotation(tCalcDir);
-
-				for (int ix = 0; ix < road2D.vertices.Length; ix++)
+				for (int iz = 0; iz < divider; iz++)
 				{
-					Vector3 roadPoint = road2D.vertices[ix].point;
-					Gizmos.DrawSphere(tCalcPos + (Calcrot * roadPoint), 0.1f);
+					float calcT = (float)iz * tIncrement;
+
+					Vector3 tCalcPos = GetBezierPositionWhenT(calcT, source, target); // Calculate position when t is x
+					Vector3 tCalcDir = GetBezierDirectionWhenT(calcT, source, target);
+					Quaternion Calcrot = Quaternion.LookRotation(tCalcDir);
+
+					for (int ix = 0; ix < road2D.vertices.Length; ix++)
+					{
+						Vector3 roadPoint = road2D.vertices[ix].point;
+						Gizmos.DrawSphere(tCalcPos + (Calcrot * roadPoint), 0.1f);
+					}
 				}
 			}
 		}
